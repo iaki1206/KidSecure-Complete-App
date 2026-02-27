@@ -300,41 +300,49 @@ export default function Testing() {
 
             <div className="pt-4 border-t">
               <Button size="lg" className="w-full md:w-auto gap-2" onClick={() => {
-                // Build CSV content from stats
-                const csvRows = [
-                  ["Metric", "Category", "Value"],
-                  ["Total Tests", "Registration", String(registration.total)],
-                  ["Successful", "Registration", String(registration.successful)],
-                  ["Success Rate (%)", "Registration", registration.total > 0 ? ((registration.successful / registration.total) * 100).toFixed(1) : "0"],
-                  ["Avg Time (ms)", "Registration", String(registration.avgTime)],
-                  ["Avg Time (s)", "Registration", (registration.avgTime / 1000).toFixed(2)],
-                  ["Avg Attempts", "Registration", registration.avgAttempts.toFixed(2)],
-                  ["Total Tests", "Login", String(login.total)],
-                  ["Successful", "Login", String(login.successful)],
-                  ["Success Rate (%)", "Login", login.total > 0 ? ((login.successful / login.total) * 100).toFixed(1) : "0"],
-                  ["Avg Time (ms)", "Login", String(login.avgTime)],
-                  ["Avg Time (s)", "Login", (login.avgTime / 1000).toFixed(2)],
-                  ["Avg Attempts", "Login", login.avgAttempts.toFixed(2)],
-                  ["Total Tests", "Memorability", String(memorability.total)],
-                  ["Successful", "Memorability", String(memorability.successful)],
-                  ["Success Rate (%)", "Memorability", memorability.total > 0 ? ((memorability.successful / memorability.total) * 100).toFixed(1) : "0"],
-                  ["Avg Time (ms)", "Memorability", String(memorability.avgTime)],
-                  ["Avg Time (s)", "Memorability", (memorability.avgTime / 1000).toFixed(2)],
-                  ["Avg Attempts", "Memorability", memorability.avgAttempts.toFixed(2)],
-                  [],
-                  ["Security Metric", "", "Value"],
-                  ["Password Space", "", "390625"],
-                  ["Encryption", "", "PBKDF2 (100000 iterations)"],
-                  ["Max Login Attempts", "", "3"],
-                  ["Lockout Duration", "", "5 minutes"],
-                ];
-                const csvContent = csvRows.map(row => row.join(",")).join("\n");
-                const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+                const txtContent = `KIDSECURE DATA ANALYSIS EXPORT
+==============================
+
+Registration Metrics:
+---------------------
+Total Tests: ${registration.total}
+Successful: ${registration.successful}
+Success Rate: ${registration.total > 0 ? ((registration.successful / registration.total) * 100).toFixed(1) : "0"}%
+Avg Time: ${(registration.avgTime / 1000).toFixed(2)}s
+Avg Attempts: ${registration.avgAttempts.toFixed(2)}
+
+Login Metrics:
+--------------
+Total Tests: ${login.total}
+Successful: ${login.successful}
+Success Rate: ${login.total > 0 ? ((login.successful / login.total) * 100).toFixed(1) : "0"}%
+Avg Time: ${(login.avgTime / 1000).toFixed(2)}s
+Avg Attempts: ${login.avgAttempts.toFixed(2)}
+
+Memorability Metrics:
+---------------------
+Total Tests: ${memorability.total}
+Successful: ${memorability.successful}
+Success Rate: ${memorability.total > 0 ? ((memorability.successful / memorability.total) * 100).toFixed(1) : "0"}%
+Avg Time: ${(memorability.avgTime / 1000).toFixed(2)}s
+Avg Attempts: ${memorability.avgAttempts.toFixed(2)}
+
+Security Metrics:
+-----------------
+Password Space: 390,625
+Encryption: PBKDF2 (100,000 iterations)
+Max Login Attempts: 3
+Lockout Duration: 5 minutes
+`;
+                const blob = new Blob([txtContent], { type: "text/plain;charset=utf-8" });
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement("a");
-                link.href = url;
-                link.download = "kidsecure_analysis_data.csv";
+                link.setAttribute("href", url);
+                link.setAttribute("download", "kidsecure_analysis_data.txt");
+                link.style.display = 'none';
+                document.body.appendChild(link);
                 link.click();
+                document.body.removeChild(link);
                 URL.revokeObjectURL(url);
               }}>
                 <Download className="w-5 h-5" />
