@@ -1,0 +1,67 @@
+graph TB
+    subgraph "Client Layer"
+        UI[Child-Friendly UI<br/>React + Tailwind CSS]
+        REG[Registration Flow<br/>4-Round Selection]
+        LOGIN[Login Flow<br/>Randomized Grids]
+        DASH[Testing Dashboard<br/>Analytics & Metrics]
+    end
+
+    subgraph "API Layer"
+        TRPC[tRPC Server<br/>Type-Safe API]
+        AUTH[Authentication Router]
+        TEST[Testing Router]
+    end
+
+    subgraph "Business Logic"
+        SEC[Security Module<br/>PBKDF2 + Salt]
+        VAL[Validation Module<br/>Input Sanitization]
+        GRID[Grid Generator<br/>Randomization]
+        DECOY[Decoy Round Generator<br/>Shoulder-Surfing Protection]
+    end
+
+    subgraph "Data Layer"
+        DB[(MySQL Database)]
+        USERS[Users Table]
+        GPWD[Graphical Passwords]
+        ATTEMPTS[Login Attempts]
+        TESTS[Usability Tests]
+    end
+
+    subgraph "Asset Storage"
+        IMG[Animal Images<br/>125 PNG Files]
+        META[Image Metadata<br/>Categories & IDs]
+    end
+
+    UI --> REG
+    UI --> LOGIN
+    UI --> DASH
+    
+    REG --> TRPC
+    LOGIN --> TRPC
+    DASH --> TRPC
+    
+    TRPC --> AUTH
+    TRPC --> TEST
+    
+    AUTH --> SEC
+    AUTH --> VAL
+    AUTH --> GRID
+    
+    SEC --> DECOY
+    GRID --> META
+    
+    AUTH --> DB
+    TEST --> DB
+    
+    DB --> USERS
+    DB --> GPWD
+    DB --> ATTEMPTS
+    DB --> TESTS
+    
+    GRID --> IMG
+    
+    style UI fill:#e0f2fe
+    style TRPC fill:#ddd6fe
+    style SEC fill:#fecaca
+    style DB fill:#bbf7d0
+    style IMG fill:#fef3c7

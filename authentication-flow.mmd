@@ -1,0 +1,74 @@
+sequenceDiagram
+    participant Child
+    participant UI as User Interface
+    participant API as tRPC API
+    participant SEC as Security Module
+    participant DB as Database
+
+    Note over Child,DB: Registration Flow
+    
+    Child->>UI: Enter username
+    UI->>API: checkUsername(username)
+    API->>DB: Query existing users
+    DB-->>API: Username available
+    API-->>UI: Validation result
+    
+    loop 4 Rounds
+        UI->>API: getGridAnimals(count=25)
+        API-->>UI: Return 25 random animals
+        UI->>Child: Display 5×5 grid
+        Child->>UI: Select favorite animal
+        UI->>UI: Store selection
+    end
+    
+    UI->>Child: Review 4 selected animals
+    Child->>UI: Confirm password
+    
+    UI->>API: register(username, selections)
+    API->>SEC: generateSalt()
+    SEC-->>API: Random salt
+    API->>SEC: hashPassword(selections, salt)
+    SEC-->>API: Hashed password
+    API->>DB: Store user + hashed password
+    DB-->>API: Success
+    API-->>UI: Registration complete
+    UI->>Child: Success message 🎉
+
+    Note over Child,DB: Login Flow
+    
+    Child->>UI: Enter username
+    UI->>API: Verify username exists
+    API->>DB: Check user
+    DB-->>API: User found
+    
+    loop 4 Rounds
+        UI->>API: getGridAnimals(count=25)
+        API-->>UI: Return shuffled animals
+        UI->>Child: Display randomized grid
+        Child->>UI: Select animal
+        UI->>UI: Store selection
+    end
+    
+    UI->>API: login(username, selections)
+    API->>DB: Get stored password + salt
+    DB-->>API: Password data
+    API->>SEC: verifyPassword(selections, stored)
+    SEC-->>API: Match result
+    
+    alt Password matches
+        API->>DB: Log successful attempt
+        API->>DB: Reset failed attempts
+        API-->>UI: Login success
+        UI->>Child: Welcome back! 🎉
+    else Password incorrect
+        API->>DB: Increment failed attempts
+        API->>DB: Check attempt count
+        alt Attempts < 3
+            API-->>UI: Wrong password, X tries left
+            UI->>Child: Try again 😕
+        else Attempts >= 3
+            API->>DB: Lock account (5 min)
+            API-->>UI: Account locked
+            UI->>Child: Too many tries ⏰
+        end
+    end

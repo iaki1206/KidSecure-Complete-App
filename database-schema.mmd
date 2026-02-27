@@ -1,0 +1,46 @@
+erDiagram
+    USERS ||--o{ GRAPHICAL_PASSWORDS : has
+    USERS ||--o{ LOGIN_ATTEMPTS : makes
+    USERS ||--o{ USABILITY_TESTS : participates
+
+    USERS {
+        int id PK
+        string openId UK
+        string name
+        string email
+        string loginMethod
+        enum role
+        timestamp createdAt
+        timestamp updatedAt
+        timestamp lastSignedIn
+    }
+
+    GRAPHICAL_PASSWORDS {
+        int id PK
+        string username UK
+        string hashedPassword
+        string salt
+        int failedAttempts
+        timestamp lockedUntil
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    LOGIN_ATTEMPTS {
+        int id PK
+        string username
+        boolean success
+        string sessionInfo
+        timestamp attemptedAt
+    }
+
+    USABILITY_TESTS {
+        int id PK
+        string username
+        enum testType
+        boolean success
+        int completionTime
+        int attempts
+        string notes
+        timestamp testedAt
+    }
