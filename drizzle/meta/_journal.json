@@ -1,26 +1,12 @@
 {
   "version": "7",
-  "dialect": "mysql",
+  "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1771081428864,
-      "tag": "0000_broad_gateway",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1771143296033,
-      "tag": "0001_large_bucky",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1771325862785,
-      "tag": "0002_faithful_shriek",
+      "version": "6",
+      "when": 1776709768421,
+      "tag": "0000_daily_pretty_boy",
       "breakpoints": true
     }
   ]

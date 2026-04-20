@@ -35,47 +35,80 @@ This deliverables package contains all materials required for comprehensive eval
 
 ## 🚀 Quick Start Guide
 
+> **No database server needed!** KidSecure uses SQLite — a simple local file-based database. No MySQL or PostgreSQL required.
+
 ### Prerequisites
-- Node.js 22.x or higher
-- MySQL 8.0 or compatible database
-- Modern web browser (Chrome, Firefox, Safari, Edge)
+- **Node.js 22.x or higher** — [Download here](https://nodejs.org)
+- **pnpm** — Install with `npm install -g pnpm`
+- A modern web browser (Chrome, Firefox, Edge)
 
-### Installation
+---
 
-1. **Clone or access the project directory:**
+### ⚡ Option A — Windows: One-Click Setup (Easiest)
+
+1. **Clone the repo:**
    ```bash
-   cd /home/ubuntu/kidsecure-password
+   git clone https://github.com/iaki1206/KidSecure-Complete-App.git
+   cd KidSecure-Complete-App
+   ```
+2. **Double-click `setup-and-run.bat`**
+
+   The script will automatically:
+   - Install all dependencies
+   - Set up the SQLite database
+   - Start the server at **http://localhost:3000**
+
+---
+
+### 🖥️ Option B — Manual Setup (Any OS)
+
+1. **Clone and enter the repo:**
+   ```bash
+   git clone https://github.com/iaki1206/KidSecure-Complete-App.git
+   cd KidSecure-Complete-App
    ```
 
 2. **Install dependencies:**
    ```bash
    pnpm install
+   pnpm approve-builds   # approve native packages (better-sqlite3, esbuild)
    ```
 
-3. **Configure environment variables:**
-   The system uses pre-configured environment variables for database connection, JWT secrets, and OAuth settings.
+3. **Create a `.env` file** in the project root:
+   ```env
+   JWT_SECRET=any-random-secret-string-here
+   ```
 
-4. **Initialize database:**
+4. **Initialize the database:**
    ```bash
-   pnpm db:push
+   pnpm exec drizzle-kit generate
+   pnpm exec drizzle-kit migrate
    ```
 
-5. **Start development server:**
+5. **Start the development server:**
+
+   **Windows (PowerShell):**
+   ```powershell
+   $env:NODE_ENV="development"; node --import tsx/esm server/_core/index.ts
+   ```
+
+   **Mac / Linux:**
    ```bash
    pnpm dev
    ```
 
-6. **Access the application:**
-   Open your browser to the provided development URL
+6. **Open your browser to:** http://localhost:3000
 
-### Testing
+---
+
+### 🧪 Testing
 
 Run the automated test suite:
 ```bash
 pnpm test
 ```
 
-Access the testing dashboard at `/testing` to view usability and security metrics.
+Access the **Testing Dashboard** at http://localhost:3000/testing to view live usability and security metrics.
 
 ---
 
@@ -136,9 +169,10 @@ The system implements a modern three-tier web application architecture:
 - **Security:** Crypto module (PBKDF2, salt generation)
 
 ### Data Layer
-- **Database:** MySQL 8.0
+- **Database:** SQLite (file-based, no server required) via `better-sqlite3`
 - **ORM:** Drizzle ORM with TypeScript integration
 - **Schema:** Four tables (users, graphical_passwords, login_attempts, usability_tests)
+- **Location:** `./data/kidsecure.db` (auto-created on first run)
 
 ### Asset Management
 - **Images:** 125 optimized animal PNGs (5 categories)
