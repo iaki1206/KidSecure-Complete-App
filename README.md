@@ -5,6 +5,27 @@ Children create and recall passwords by selecting animals across 4 rounds — no
 
 ---
 
+## ▶️ Run KidSecure from GitHub
+
+**Requirements:** [Node.js](https://nodejs.org) installed (v22+)
+
+**Step 1 — Clone the repo:**
+```bash
+git clone https://github.com/iaki1206/KidSecure-Complete-App.git
+cd KidSecure-Complete-App
+```
+
+**Step 2 — Double-click `setup-and-run.bat`**
+
+That's it! The script automatically:
+- Installs all dependencies
+- Sets up the SQLite database
+- Starts the app at **http://localhost:3000**
+
+> No MySQL, no database server, no manual configuration needed. Everything is self-contained.
+
+---
+
 ## ✨ Features
 
 - 🖼️ **Graphical passwords** — pick 4 animals instead of typing text  
@@ -16,35 +37,20 @@ Children create and recall passwords by selecting animals across 4 rounds — no
 
 ---
 
-## 🚀 Run from GitHub (Windows)
-
-**Requirements:** [Node.js v22+](https://nodejs.org)
-
-```bash
-git clone https://github.com/iaki1206/KidSecure-Complete-App.git
-cd KidSecure-Complete-App
-```
-
-Then **double-click `setup-and-run.bat`**.
-
-The script automatically installs dependencies, sets up the database, and starts the app at **http://localhost:3000**.
-
----
-
 ## 🖥️ Manual Setup (Mac / Linux / Windows terminal)
 
 ```bash
 # 1. Install dependencies
 pnpm install
-pnpm approve-builds        # approve native packages (better-sqlite3, esbuild)
 
 # 2. Create .env file
-cp .env.example .env       # then edit JWT_SECRET
+cp .env.example .env       # then set JWT_SECRET to any random string
 
-# 3. Start dev server
-pnpm dev                   # Mac/Linux
-# or on Windows PowerShell:
-$env:NODE_ENV="development"; node --import tsx/esm server/_core/index.ts
+# 3. Start dev server (Mac/Linux)
+pnpm dev
+
+# Windows PowerShell alternative:
+# $env:NODE_ENV="development"; node --import tsx/esm server/_core/index.ts
 ```
 
 Open **http://localhost:3000** in your browser.
