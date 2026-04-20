@@ -16,13 +16,13 @@ let _db: ReturnType<typeof drizzle> | null = null;
 export async function getDb() {
   if (!_db) {
     try {
-      // Ensure data directory exists
-      const dataDir = path.join(process.cwd(), 'data');
+      // Use DATABASE_PATH env var (for cloud/Railway) or default to local ./data/
+      const dbPath = process.env.DATABASE_PATH || path.join(process.cwd(), 'data', 'kidsecure.db');
+      const dataDir = path.dirname(dbPath);
       if (!fs.existsSync(dataDir)) {
         fs.mkdirSync(dataDir, { recursive: true });
       }
 
-      const dbPath = path.join(dataDir, 'kidsecure.db');
       const sqlite = new Database(dbPath);
 
       // Enable WAL mode for better concurrency
